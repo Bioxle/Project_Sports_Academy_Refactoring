@@ -1,8 +1,8 @@
 package com.example.SprotsAcademy;
 
-import com.example.SprotsAcademy.PriceList;
-
 import java.time.LocalDate;
+
+import com.example.SprotsAcademy.util.PriceList;
 
 public class Enrollment implements PriceList {
     private int serialNumber;

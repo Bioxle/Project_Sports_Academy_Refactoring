@@ -2,6 +2,8 @@ package com.example.SprotsAcademy;
 
 import java.time.LocalDate;
 
+import com.example.SprotsAcademy.util.PriceList;
+
 public class Subscription implements PriceList {
 
     private int serialNumber;
@@ -12,7 +14,8 @@ public class Subscription implements PriceList {
     private double monthlyCost;
     private double discountPercentage;
 
-    public Subscription(int serialNumber, Athlete athlete, TrainingProgram trainingProgram, LocalDate startDate, LocalDate endDate, double monthlyCost, double discountPercentage) {
+    public Subscription(int serialNumber, Athlete athlete, TrainingProgram trainingProgram, LocalDate startDate,
+            LocalDate endDate, double monthlyCost, double discountPercentage) {
         this.serialNumber = serialNumber;
         this.athlete = athlete;
         this.trainingProgram = trainingProgram;

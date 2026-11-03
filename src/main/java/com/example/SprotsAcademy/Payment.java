@@ -1,8 +1,8 @@
 package com.example.SprotsAcademy;
 
-
-
 import java.time.LocalDate;
+
+import com.example.SprotsAcademy.util.PriceList;
 
 public class Payment implements PriceList {
     private int serialNumber;
@@ -12,7 +12,8 @@ public class Payment implements PriceList {
     private double totalCost;
     private String subscriptionOrRegistration;
 
-    public Payment(int serialNumber, LocalDate date, String paymentMethod, Enrollment enrollment, String subscriptionOrRegistration) {
+    public Payment(int serialNumber, LocalDate date, String paymentMethod, Enrollment enrollment,
+            String subscriptionOrRegistration) {
         this.serialNumber = serialNumber;
         this.date = date;
         this.paymentMethod = paymentMethod;
