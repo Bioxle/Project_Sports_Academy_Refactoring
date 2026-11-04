@@ -1,5 +1,6 @@
 package com.example.SprotsAcademy;
 
+import com.example.SprotsAcademy.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.*;

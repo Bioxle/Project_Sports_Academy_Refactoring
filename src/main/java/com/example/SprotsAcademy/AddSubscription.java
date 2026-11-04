@@ -1,5 +1,8 @@
 package com.example.SprotsAcademy;
 
+import com.example.SprotsAcademy.model.Athlete;
+import com.example.SprotsAcademy.model.Subscription;
+import com.example.SprotsAcademy.model.TrainingProgram;
 import javafx.application.Application;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,7 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.example.SprotsAcademy.Database.getAthleteList;

@@ -1,11 +1,10 @@
 package com.example.SprotsAcademy;
+import com.example.SprotsAcademy.model.Athlete;
+import com.example.SprotsAcademy.model.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgramReservation;
 import javafx.application.Application;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,17 +16,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.SprotsAcademy.Database.getAthleteList;
 import static com.example.SprotsAcademy.Database.getReservations;
 
 public class ReservationManagement extends Application{
