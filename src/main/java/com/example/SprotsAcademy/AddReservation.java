@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.example.SprotsAcademy.Database.*;
 import static javafx.application.Application.launch;
 
 public class AddReservation extends Application {
@@ -40,7 +39,6 @@ public class AddReservation extends Application {
     private TableView<TrainingProgram> trainingProgramTableView;
     private DatePicker startDatePicker;
     private Label messageLabel;
-
 
     List<TrainingProgramReservation> reservations;
 
@@ -68,17 +66,16 @@ public class AddReservation extends Application {
         Label athletetableLabel = new Label("Select an Athlete:");
         athletetableLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: normal;");
 
-        VBox athleteTable = new VBox(athletetableLabel,athleteTableView);
+        VBox athleteTable = new VBox(athletetableLabel, athleteTableView);
         athleteTable.setSpacing(5);
         athleteTable.setAlignment(Pos.CENTER);
         // Set constraints for Athlete TableView
         GridPane.setConstraints(athleteTable, 0, 1);
 
-
         Label trainingTableLabel = new Label("Select a Program:");
         trainingTableLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: normal;");
 
-        VBox trainingTable = new VBox(trainingTableLabel,trainingProgramTableView);
+        VBox trainingTable = new VBox(trainingTableLabel, trainingProgramTableView);
         trainingTable.setSpacing(5);
         trainingTable.setAlignment(Pos.CENTER);
         // Set constraints for Training Program TableView
@@ -114,8 +111,7 @@ public class AddReservation extends Application {
         grid.getChildren().addAll(
                 athleteTable, trainingTable,
                 startDateLabel, startDatePicker,
-                buttonBoxes
-        );
+                buttonBoxes);
 
         grid.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(10, headlineLabel, grid, messageLabel);
@@ -131,14 +127,10 @@ public class AddReservation extends Application {
         reservations = getReservations();
     }
 
-
-
-
     private void takeReserve() {
         Athlete selectedAthlete = athleteTableView.getSelectionModel().getSelectedItem();
         TrainingProgram selectedProgram = trainingProgramTableView.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = startDatePicker.getValue();
-
 
         if (selectedAthlete == null || selectedProgram == null || selectedDate == null) {
             messageLabel.setText("Please select Athlete, Training Program, and enter all details.");
@@ -151,7 +143,6 @@ public class AddReservation extends Application {
 
             String currentDate = selectedDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-
             // Convert IDs to strings
             String programIdStr = String.valueOf(selectedProgram.getSerialNumber());
             String athleteIdStr = String.valueOf(selectedAthlete.getSerialNumber());
@@ -159,8 +150,9 @@ public class AddReservation extends Application {
             // Concatenate IDs and date to form unique code
             String uniqueCode = programIdStr + "_" + athleteIdStr + "_" + currentDate;
 
-            System.out.println("here unique: "+uniqueCode);
-            TrainingProgramReservation newReservation = new TrainingProgramReservation(uniqueCode,selectedAthlete, selectedProgram, selectedDate);
+            System.out.println("here unique: " + uniqueCode);
+            TrainingProgramReservation newReservation = new TrainingProgramReservation(uniqueCode, selectedAthlete,
+                    selectedProgram, selectedDate);
             reservations.add(newReservation);
 
             saveReservationsToExcel(reservations);
@@ -188,7 +180,8 @@ public class AddReservation extends Application {
         tableView.setPrefWidth(350);
 
         TableColumn<Athlete, Integer> serialNumberColumn = new TableColumn<>("Serial Number");
-        serialNumberColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSerialNumber()));
+        serialNumberColumn
+                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSerialNumber()));
         serialNumberColumn.setMinWidth(50);
 
         TableColumn<Athlete, String> nameColumn = new TableColumn<>("Name");
@@ -211,15 +204,18 @@ public class AddReservation extends Application {
         TableView<TrainingProgram> tableView = new TableView<>();
         tableView.setPrefWidth(650);
 
-//        TableColumn<TrainingProgram, Integer> serialNumberCol = new TableColumn<>("Serial Number");
-//        serialNumberCol.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        // TableColumn<TrainingProgram, Integer> serialNumberCol = new
+        // TableColumn<>("Serial Number");
+        // serialNumberCol.setCellValueFactory(new
+        // PropertyValueFactory<>("serialNumber"));
 
         TableColumn<TrainingProgram, String> sportCol = new TableColumn<>("Sport");
         sportCol.setCellValueFactory(new PropertyValueFactory<>("sport"));
         sportCol.setMinWidth(100);
 
-//        TableColumn<TrainingProgram, Integer> facilityCol = new TableColumn<>("Facility");
-//        facilityCol.setCellValueFactory(new PropertyValueFactory<>("facility"));
+        // TableColumn<TrainingProgram, Integer> facilityCol = new
+        // TableColumn<>("Facility");
+        // facilityCol.setCellValueFactory(new PropertyValueFactory<>("facility"));
 
         TableColumn<TrainingProgram, String> coachCol = new TableColumn<>("Coach");
         coachCol.setCellValueFactory(new PropertyValueFactory<>("coach"));
@@ -229,8 +225,10 @@ public class AddReservation extends Application {
         minExpCol.setCellValueFactory(new PropertyValueFactory<>("minimumExp"));
         minExpCol.setMinWidth(100);
 
-//        TableColumn<TrainingProgram, Boolean> weekOfAthleteCol = new TableColumn<>("Week of the Athlete");
-//        weekOfAthleteCol.setCellValueFactory(new PropertyValueFactory<>("weekOfTheAthlete"));
+        // TableColumn<TrainingProgram, Boolean> weekOfAthleteCol = new
+        // TableColumn<>("Week of the Athlete");
+        // weekOfAthleteCol.setCellValueFactory(new
+        // PropertyValueFactory<>("weekOfTheAthlete"));
 
         TableColumn<TrainingProgram, String> sheetCol = new TableColumn<>("Sheet");
         sheetCol.setCellValueFactory(new PropertyValueFactory<>("sheet"));
@@ -244,7 +242,9 @@ public class AddReservation extends Application {
         dayOfTheWeekCol.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
         dayOfTheWeekCol.setMinWidth(100);
 
-//        tableView.getColumns().addAll(serialNumberCol, sportCol, facilityCol, coachCol, minExpCol, weekOfAthleteCol, sheetCol, durationCol, dayOfTheWeekCol);
+        // tableView.getColumns().addAll(serialNumberCol, sportCol, facilityCol,
+        // coachCol, minExpCol, weekOfAthleteCol, sheetCol, durationCol,
+        // dayOfTheWeekCol);
         tableView.getColumns().addAll(sportCol, coachCol, minExpCol, sheetCol, durationCol, dayOfTheWeekCol);
 
         ObservableList<TrainingProgram> trainingPrograms = getTrainingPrograms();
@@ -268,12 +268,13 @@ public class AddReservation extends Application {
         File file = new File(dataDir.toFile(), "trainingProgram.xlsx");
 
         try (FileInputStream fis = new FileInputStream(file);
-             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+                XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-                if (row.getRowNum() == 0) continue; // Skip header row
+                if (row.getRowNum() == 0)
+                    continue; // Skip header row
 
                 int serialNumber = (int) row.getCell(0).getNumericCellValue();
                 String sport = row.getCell(1).getStringCellValue();
@@ -285,7 +286,8 @@ public class AddReservation extends Application {
                 int duration = (int) row.getCell(7).getNumericCellValue();
                 String dayOfTheWeek = row.getCell(8).getStringCellValue();
 
-                programs.add(new TrainingProgram(serialNumber, sport, facility, coach, minimumExp, weekOfTheAthlete, sheetValue, duration, dayOfTheWeek));
+                programs.add(new TrainingProgram(serialNumber, sport, facility, coach, minimumExp, weekOfTheAthlete,
+                        sheetValue, duration, dayOfTheWeek));
             }
 
         } catch (IOException e) {
@@ -293,7 +295,6 @@ public class AddReservation extends Application {
         }
         return programs;
     }
-
 
     public static void main(String[] args) {
         launch(args);
