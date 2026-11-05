@@ -1,4 +1,9 @@
 package com.example.SprotsAcademy.repositories;
 
-public class AthleteRepository {
+import com.example.SprotsAcademy.Athlete;
+
+public interface AthleteRepository extends ExcelRepository<Athlete> {
+
+    Athlete findAthleteBySerialNumber(int athleteSerialNumber);
+
 }
