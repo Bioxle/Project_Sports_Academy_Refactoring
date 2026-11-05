@@ -1,6 +1,6 @@
 package com.example.SprotsAcademy.repositories.excel;
 
-import com.example.SprotsAcademy.Athlete;
+import com.example.SprotsAcademy.model.Athlete;
 import com.example.SprotsAcademy.repositories.AthleteRepository;
 import com.example.SprotsAcademy.repositories.Util;
 import org.apache.poi.ss.usermodel.*;
@@ -51,8 +51,7 @@ public class AthleteExcelRepository implements AthleteRepository {
 
         } catch (IOException e) {
             throw new UncheckedIOException(
-                    "Could not read athletes from " + filePath, e
-            );
+                    "Could not read athletes from " + filePath, e);
         }
     }
 
@@ -183,8 +182,7 @@ public class AthleteExcelRepository implements AthleteRepository {
                 dateOfBirth,
                 row.getCell(4).getStringCellValue(),
                 row.getCell(6).getBooleanCellValue(),
-                (int) row.getCell(5).getNumericCellValue()
-        );
+                (int) row.getCell(5).getNumericCellValue());
     }
 
     private void writeAthlete(Row row, Athlete athlete) {

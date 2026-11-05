@@ -1,7 +1,7 @@
 package com.example.SprotsAcademy.repositories.excel;
 
-import com.example.SprotsAcademy.Enrollment;
-import com.example.SprotsAcademy.Payment;
+import com.example.SprotsAcademy.model.Enrollment;
+import com.example.SprotsAcademy.model.Payment;
 import com.example.SprotsAcademy.repositories.PaymentRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

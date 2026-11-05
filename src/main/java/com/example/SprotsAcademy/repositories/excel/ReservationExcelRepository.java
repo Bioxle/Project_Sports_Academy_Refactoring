@@ -1,9 +1,9 @@
 package com.example.SprotsAcademy.repositories.excel;
 
-import com.example.SprotsAcademy.Athlete;
-import com.example.SprotsAcademy.Subscription;
-import com.example.SprotsAcademy.TrainingProgram;
-import com.example.SprotsAcademy.TrainingProgramReservation;
+import com.example.SprotsAcademy.model.Athlete;
+import com.example.SprotsAcademy.model.Subscription;
+import com.example.SprotsAcademy.model.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgramReservation;
 import com.example.SprotsAcademy.repositories.AthleteRepository;
 import com.example.SprotsAcademy.repositories.ReservationRepository;
 import com.example.SprotsAcademy.repositories.TrainingProgramRepository;

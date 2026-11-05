@@ -1,6 +1,6 @@
 package com.example.SprotsAcademy.repositories;
 
-import com.example.SprotsAcademy.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgram;
 import javafx.collections.ObservableList;
 
 public interface TrainingProgramRepository extends Repository<TrainingProgram> {

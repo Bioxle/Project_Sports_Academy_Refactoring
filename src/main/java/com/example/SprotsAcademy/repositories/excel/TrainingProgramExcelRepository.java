@@ -1,6 +1,6 @@
 package com.example.SprotsAcademy.repositories.excel;
 
-import com.example.SprotsAcademy.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgram;
 import com.example.SprotsAcademy.repositories.TrainingProgramRepository;
 import com.example.SprotsAcademy.repositories.Util;
 import javafx.collections.FXCollections;
