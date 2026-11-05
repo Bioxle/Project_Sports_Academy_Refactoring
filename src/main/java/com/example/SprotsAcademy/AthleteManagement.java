@@ -1,5 +1,6 @@
 package com.example.SprotsAcademy;
 
+import com.example.SprotsAcademy.model.Athlete;
 import javafx.application.Application;
 
 import javafx.beans.property.*;
@@ -17,9 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.SprotsAcademy.Database.getAthleteList;

@@ -10,16 +10,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import com.example.SprotsAcademy.Athlete;
+import com.example.SprotsAcademy.model.Athlete;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
 
 import static com.example.SprotsAcademy.Database.registerAthlete;

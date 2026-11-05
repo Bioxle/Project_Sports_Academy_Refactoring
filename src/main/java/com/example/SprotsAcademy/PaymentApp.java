@@ -1,4 +1,7 @@
 package com.example.SprotsAcademy;
+import com.example.SprotsAcademy.model.Athlete;
+import com.example.SprotsAcademy.model.Enrollment;
+import com.example.SprotsAcademy.model.Payment;
 import javafx.application.Application;
 
 import javafx.beans.property.SimpleBooleanProperty;
