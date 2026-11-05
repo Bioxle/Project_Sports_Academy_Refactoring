@@ -1,9 +1,10 @@
 package com.example.SprotsAcademy;
 
+import com.example.SprotsAcademy.model.Athlete;
+import com.example.SprotsAcademy.model.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgramReservation;
 import javafx.application.Application;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

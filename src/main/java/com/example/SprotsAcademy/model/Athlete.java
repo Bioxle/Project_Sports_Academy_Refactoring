@@ -1,7 +1,6 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Athlete extends User {
     private Boolean professional;

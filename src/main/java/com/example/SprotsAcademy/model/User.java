@@ -1,4 +1,4 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.model;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -10,9 +10,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Date;
 
-public class User {
+public abstract class User {
     private int serialNumber;
     private String name;
     private String surname;
@@ -87,12 +86,7 @@ public class User {
 
     // Default constructor
     public User() {
-        try {
-            this.serialNumber = getCurrentSerial();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        this.dateOfRegistration = LocalDate.now();
+        // to implement id logic
     }
 
     public User(int serialNumber,String name, String surname, String sheet, LocalDate dateOfBirth, String contact) {
@@ -107,12 +101,7 @@ public class User {
 
     // Parameterized constructor
     public User(String name, String surname, String sheet, LocalDate dateOfBirth, String contact) {
-        try {
-            this.serialNumber = getCurrentSerial();
-        } catch (FileNotFoundException e) {
-            this.serialNumber = Integer.parseInt(null);
-            throw new RuntimeException(e);
-        }
+        // to implement id logic
         this.name = name;
         this.surname = surname;
         this.sheet = sheet;

@@ -1,4 +1,4 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.model;
 
 public class Sport {
     String sportName;

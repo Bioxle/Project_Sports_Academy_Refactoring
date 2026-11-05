@@ -1,5 +1,6 @@
 package com.example.SprotsAcademy;
 
+import com.example.SprotsAcademy.model.Athlete;
 import javafx.application.Application;
 
 import javafx.beans.property.SimpleBooleanProperty;
