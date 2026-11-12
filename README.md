@@ -82,3 +82,7 @@ src/test/java/com/example/SprotsAcademy/
 - [] User class made abstract (instantiating user makes no sense).
 - [-] getCurrentSerial() method removed from user (SRP).
 - [] TrainingProgram fields are primitives instead of dedicated objects (keep em?).
+
+# Part 3 : service package
+- [+] Added AthleteService, ReservationService and SubscriptionService to implement business logic.
+- [] The business logic As scattered across many UI classes which violates SRP in each class.
