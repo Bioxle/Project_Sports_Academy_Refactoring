@@ -31,13 +31,22 @@ public class AthleteService {
     // ── Commands ─────────────────────────────────────────────
 
 
+    /**
+     * Validates the input, generates the next serial number,
+     * builds an {@link Athlete}, and persists it.
+     *
+     * @throws IllegalArgumentException if any required field is blank/null
+     *                                  or experience level is out of range.
+     */
     public Athlete registerAthlete(String name, String surname, String sheet,
                                    LocalDate dateOfBirth, String contact,
                                    boolean professional, int experienceLevel) {
 
         validateAthleteFields(name, surname, sheet, dateOfBirth, contact, experienceLevel);
 
-        Athlete athlete = new Athlete(name, surname, sheet, dateOfBirth,
+        int nextId = generateNextSerialNumber();
+
+        Athlete athlete = new Athlete(nextId, name, surname, sheet, dateOfBirth,
                 contact, professional, experienceLevel);
 
         boolean saved = athleteRepo.save(athlete);
@@ -86,6 +95,22 @@ public class AthleteService {
             throw new IllegalArgumentException("Athlete cannot be null.");
         }
         return athleteRepo.delete(athlete);
+    }
+
+    // ── Helpers ──────────────────────────────────────────────
+
+    /**
+     * Scans existing athletes and returns max(serialNumber) + 1.
+     * Returns 1 when there are no athletes yet.
+     */
+    private int generateNextSerialNumber() {
+        int maxSerial = 0;
+        for (Athlete a : athleteRepo.findAll()) {
+            if (a.getSerialNumber() > maxSerial) {
+                maxSerial = a.getSerialNumber();
+            }
+        }
+        return maxSerial + 1;
     }
 
     // ── Validation ───────────────────────────────────────────
