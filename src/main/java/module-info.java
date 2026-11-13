@@ -8,7 +8,8 @@ module com.example.SprotsAcademy {
 
 
     opens com.example.SprotsAcademy to javafx.fxml;
-    exports com.example.SprotsAcademy;
     exports com.example.SprotsAcademy.model;
     opens com.example.SprotsAcademy.model to javafx.fxml;
+    exports com.example.SprotsAcademy.unrefactored;
+    opens com.example.SprotsAcademy.unrefactored to javafx.fxml;
 }

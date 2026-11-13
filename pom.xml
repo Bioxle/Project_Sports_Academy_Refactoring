@@ -17,6 +17,7 @@
     <maven.compiler.target>20</maven.compiler.target>
 </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -57,6 +58,18 @@
 	      <version>3.8.1</version>
 	      <scope>test</scope>
 	    </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.23.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 <build>
     <plugins>
@@ -78,7 +91,7 @@
                     <!-- Default configuration for running with: mvn clean javafx:run -->
                     <id>default-cli</id>
                     <configuration>
-                        <mainClass>com.example.SprotsAcademy/com.example.SprotsAcademy.MainMenu</mainClass>
+                        <mainClass>com.example.SprotsAcademy/com.example.SprotsAcademy.unrefactored.MainMenu</mainClass>
                         <launcher>app</launcher>
                         <jlinkZipName>app</jlinkZipName>
                         <jlinkImageName>app</jlinkImageName>
@@ -88,6 +101,25 @@
                     </configuration>
                 </execution>
             </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.14.1</version>
+            <configuration>
+                <excludes>
+                    <exclude>**/unrefactored/**/*.java</exclude>
+                </excludes>
+                <useModulePath>false</useModulePath>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+                <useModulePath>false</useModulePath>
+            </configuration>
         </plugin>
     </plugins>
 </build>

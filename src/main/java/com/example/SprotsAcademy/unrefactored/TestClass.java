@@ -1,9 +1,8 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.unrefactored;
 
 import com.example.SprotsAcademy.model.Athlete;
 import com.example.SprotsAcademy.model.Coach;
 import com.example.SprotsAcademy.model.Sport;
-import com.example.SprotsAcademy.model.User;
 
 import java.time.LocalDate;
 

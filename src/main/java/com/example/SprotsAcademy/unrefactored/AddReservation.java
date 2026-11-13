@@ -1,8 +1,8 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.unrefactored;
 
 import com.example.SprotsAcademy.model.Athlete;
-import com.example.SprotsAcademy.model.Subscription;
 import com.example.SprotsAcademy.model.TrainingProgram;
+import com.example.SprotsAcademy.model.TrainingProgramReservation;
 import javafx.application.Application;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -27,35 +27,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.example.SprotsAcademy.Database.getAthleteList;
-import static com.example.SprotsAcademy.Database.saveSubscriptionsToExcel;
 import static javafx.application.Application.launch;
 
-public class AddSubscription extends Application {
+public class AddReservation extends Application {
 
     private Stage stage;
     private TableView<Athlete> athleteTableView;
     private TableView<TrainingProgram> trainingProgramTableView;
     private DatePicker startDatePicker;
-    private DatePicker endDatePicker;
-    private TextField costField;
-    private TextField discountField;
     private Label messageLabel;
 
-
-    List<Subscription> subscriptions;
+    List<TrainingProgramReservation> reservations;
 
     @Override
     public void start(Stage primaryStage) {
-
-
         this.stage = primaryStage;
         messageLabel = new Label("");
-
-        stage.setTitle("Subscription Management");
+        stage.setTitle("Add Reservation");
 
         // Create a GridPane layout
         GridPane grid = new GridPane();
@@ -64,74 +55,55 @@ public class AddSubscription extends Application {
         grid.setHgap(10);
 
         // Headline Label
-        Label headlineLabel = new Label("Subscription Creation");
+        Label headlineLabel = new Label("Reservation Creation");
         headlineLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         headlineLabel.setAlignment(Pos.CENTER);
 
-        // Athlete TableView
+        // Initialize TableView components
         athleteTableView = createAthleteTableView();
+        trainingProgramTableView = createProgramTableView();
 
-        Label tableLabel = new Label("Select an Athlete:");
-        tableLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: normal;");
+        Label athletetableLabel = new Label("Select an Athlete:");
+        athletetableLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: normal;");
 
-        VBox athleteTable = new VBox(tableLabel,athleteTableView);
+        VBox athleteTable = new VBox(athletetableLabel, athleteTableView);
         athleteTable.setSpacing(5);
         athleteTable.setAlignment(Pos.CENTER);
-
+        // Set constraints for Athlete TableView
         GridPane.setConstraints(athleteTable, 0, 1);
-
-        // Training Program TableView
-        trainingProgramTableView = createProgramTableView();
 
         Label trainingTableLabel = new Label("Select a Program:");
         trainingTableLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: normal;");
 
-        VBox trainingTable = new VBox(trainingTableLabel,trainingProgramTableView);
+        VBox trainingTable = new VBox(trainingTableLabel, trainingProgramTableView);
         trainingTable.setSpacing(5);
         trainingTable.setAlignment(Pos.CENTER);
-
+        // Set constraints for Training Program TableView
         GridPane.setConstraints(trainingTable, 1, 1);
 
-        // Start Date Picker
-        Label startDateLabel = new Label("Start Date:");
+        // Other UI components
+        Label startDateLabel = new Label("Training Program Date:");
         startDatePicker = new DatePicker();
         GridPane.setConstraints(startDateLabel, 0, 2);
         GridPane.setConstraints(startDatePicker, 1, 2);
 
-        // End Date Picker
-        Label endDateLabel = new Label("End Date:");
-        endDatePicker = new DatePicker();
-        GridPane.setConstraints(endDateLabel, 0, 3);
-        GridPane.setConstraints(endDatePicker, 1, 3);
+        // End Date Picker, Cost Field, etc. (omitted for brevity)
 
-        // Cost Field
-        Label costLabel = new Label("Monthly Cost:");
-        costField = new TextField();
-        GridPane.setConstraints(costLabel, 0, 4);
-        GridPane.setConstraints(costField, 1, 4);
+        // Buttons
+        Button reserve = new Button("Reserve");
+        reserve.setBackground(new Background(new BackgroundFill(Color.SILVER, CornerRadii.EMPTY, Insets.EMPTY)));
+        reserve.setOnMouseEntered(e -> reserve.setStyle("-fx-background-color: LIMEGREEN"));
+        reserve.setOnMouseExited(e -> reserve.setStyle("-fx-background-color: SILVER;"));
 
-        // Discount Field
-        Label discountLabel = new Label("Discount Percentage:");
-        discountField = new TextField();
-        GridPane.setConstraints(discountLabel, 0, 5);
-        GridPane.setConstraints(discountField, 1, 5);
-
-        // Payment Button
-        Button paymentButton = new Button("Make Payment");
-        paymentButton.setBackground(new Background(new BackgroundFill(Color.SILVER, CornerRadii.EMPTY, Insets.EMPTY)));
-        paymentButton.setOnMouseEntered(e -> paymentButton.setStyle("-fx-background-color: LIMEGREEN"));
-        paymentButton.setOnMouseExited(e -> paymentButton.setStyle("-fx-background-color: SILVER;"));
-        paymentButton.setOnAction(e -> makePayment());
-
-        // Back Button
         Button backButton = new Button("Back");
         backButton.setBackground(new Background(new BackgroundFill(Color.SILVER, CornerRadii.EMPTY, Insets.EMPTY)));
         backButton.setOnMouseEntered(e -> backButton.setStyle("-fx-background-color: RED;"));
         backButton.setOnMouseExited(e -> backButton.setStyle("-fx-background-color: SILVER;"));
-        backButton.setOnAction(e -> goBack());
 
-        // Add all elements to the grid
-        HBox buttonBoxes = new HBox(10, paymentButton, backButton);
+        backButton.setOnAction(e -> goBack());
+        reserve.setOnAction(e -> takeReserve());
+
+        HBox buttonBoxes = new HBox(10, reserve, backButton);
         buttonBoxes.setAlignment(Pos.CENTER);
         GridPane.setConstraints(buttonBoxes, 0, 6);
         GridPane.setColumnSpan(buttonBoxes, 2);
@@ -139,132 +111,53 @@ public class AddSubscription extends Application {
         grid.getChildren().addAll(
                 athleteTable, trainingTable,
                 startDateLabel, startDatePicker,
-                endDateLabel, endDatePicker,
-                costLabel, costField,
-                discountLabel, discountField,
-                buttonBoxes
-        );
+                buttonBoxes);
 
         grid.setAlignment(Pos.CENTER);
         VBox vbox = new VBox(10, headlineLabel, grid, messageLabel);
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(10));
 
-        // Create a scene with the VBox
+        // Create scene and set stage
         double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
         Scene scene = new Scene(vbox, screenWidth, screenHeight);
-
         stage.setScene(scene);
         stage.show();
-        getSubscriptions();
+        reservations = getReservations();
     }
 
-    private void  getSubscriptions(){
-        subscriptions = new ArrayList<>();
-
-        Path dataDir = Paths.get("data");
-        if (!Files.exists(dataDir)) {
-            try {
-                Files.createDirectories(dataDir);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        File file = new File(dataDir.toFile(), "subscriptions.xlsx");
-
-        if (!file.exists()) {
-            return; // No subscriptions file found
-        }
-
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            Workbook workbook = new XSSFWorkbook(fileInputStream);
-            Sheet sheet = workbook.getSheetAt(0);
-
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) {
-                    continue; // Skip header row
-                }
-
-                int serialNumber = (int) row.getCell(0).getNumericCellValue();
-                int athleteSerialNumber = (int) row.getCell(1).getNumericCellValue();
-                int trainingProgramSerialNumber = (int) row.getCell(2).getNumericCellValue();
-                LocalDate startDate = LocalDate.parse(row.getCell(3).getStringCellValue());
-                LocalDate endDate = LocalDate.parse(row.getCell(4).getStringCellValue());
-                double monthlyCost = row.getCell(5).getNumericCellValue();
-                double discountPercentage = row.getCell(6).getNumericCellValue();
-
-                Athlete athlete = findAthleteBySerialNumber(athleteSerialNumber);
-                TrainingProgram trainingProgram = findTrainingProgramBySerialNumber(trainingProgramSerialNumber);
-
-                if (athlete != null && trainingProgram != null) {
-                    Subscription subscription = new Subscription(serialNumber, athlete, trainingProgram, startDate, endDate, monthlyCost, discountPercentage);
-                    subscriptions.add(subscription);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    Athlete findAthleteBySerialNumber(int athleteSerialNumber){
-        ObservableList<Athlete> athletes = athleteTableView.getItems();
-        for (Athlete athlete : athletes) {
-            if (athlete.getSerialNumber() == athleteSerialNumber) {
-                return athlete;
-            }
-        }
-        return null;
-    }
-
-    TrainingProgram findTrainingProgramBySerialNumber(int trainingProgramSerialNumber){
-        ObservableList<TrainingProgram> programs = trainingProgramTableView.getItems();
-        for (TrainingProgram program : programs) {
-            if (program.getSerialNumber() == trainingProgramSerialNumber) {
-                return program;
-            }
-        }
-        return null;
-    }
-
-    private void makePayment() {
+    private void takeReserve() {
         Athlete selectedAthlete = athleteTableView.getSelectionModel().getSelectedItem();
         TrainingProgram selectedProgram = trainingProgramTableView.getSelectionModel().getSelectedItem();
-        LocalDate startDate = startDatePicker.getValue();
-        LocalDate endDate = endDatePicker.getValue();
-        String cost = costField.getText();
-        String discount = discountField.getText();
+        LocalDate selectedDate = startDatePicker.getValue();
 
-        if (selectedAthlete == null || selectedProgram == null || startDate == null || endDate == null || cost.isEmpty() || discount.isEmpty()) {
+        if (selectedAthlete == null || selectedProgram == null || selectedDate == null) {
             messageLabel.setText("Please select Athlete, Training Program, and enter all details.");
             messageLabel.setTextFill(Color.RED);
             return; // Exit method without creating subscription if any field is empty
         }
 
         try {
-            System.out.println("here");
-            double costValue = Double.parseDouble(cost);
-            double discountValue = Double.parseDouble(discount);
-
-            System.out.println("here2");
             // Create Subscription object
-            int serialNumberForSubscription=getUniqeSerialNumberForSubsription();
-            Subscription subscription = new Subscription(serialNumberForSubscription,selectedAthlete, selectedProgram, startDate, endDate, costValue, discountValue);
 
-            subscriptions.add(subscription);
+            String currentDate = selectedDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-            Path dataDir = Paths.get("data");
-            if (!Files.exists(dataDir)) {
-                Files.createDirectories(dataDir);
-            }
-            File file = new File(dataDir.toFile(), "subscriptions.xlsx");
+            // Convert IDs to strings
+            String programIdStr = String.valueOf(selectedProgram.getSerialNumber());
+            String athleteIdStr = String.valueOf(selectedAthlete.getSerialNumber());
 
-            saveSubscriptionsToExcel(subscriptions);
+            // Concatenate IDs and date to form unique code
+            String uniqueCode = programIdStr + "_" + athleteIdStr + "_" + currentDate;
 
-            // Create Payment object (implementation not shown here)
-            // Payment payment = new Payment(subscription.getSerialNumber(), LocalDate.now(), "Payment Method", subscription);
+            System.out.println("here unique: " + uniqueCode);
+            TrainingProgramReservation newReservation = new TrainingProgramReservation(uniqueCode, selectedAthlete,
+                    selectedProgram, selectedDate);
+            reservations.add(newReservation);
 
+            saveReservationsToExcel(reservations);
 
-            messageLabel.setText("Subscription and Payment successful.");
+            messageLabel.setText("Reservation and Payment successful.");
             messageLabel.setTextFill(Color.GREEN);
         } catch (Exception e) {
             messageLabel.setText("Invalid input. Please check the numbers.");
@@ -272,21 +165,10 @@ public class AddSubscription extends Application {
         }
     }
 
-
-    private int getUniqeSerialNumberForSubsription(){
-        int maxSerial=1;
-        for(Subscription subscription:subscriptions){
-            if(subscription.getSerialNumber()>=maxSerial){
-                maxSerial = subscription.getSerialNumber()+1;
-            }
-        }
-        return maxSerial;
-    }
-
     private void goBack() {
         try {
             // Navigate back to previous screen (if applicable)
-            SubscriptionManagement display = new SubscriptionManagement();
+            ReservationManagement display = new ReservationManagement();
             display.start(stage);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -298,7 +180,8 @@ public class AddSubscription extends Application {
         tableView.setPrefWidth(350);
 
         TableColumn<Athlete, Integer> serialNumberColumn = new TableColumn<>("Serial Number");
-        serialNumberColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSerialNumber()));
+        serialNumberColumn
+                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSerialNumber()));
         serialNumberColumn.setMinWidth(50);
 
         TableColumn<Athlete, String> nameColumn = new TableColumn<>("Name");
@@ -321,15 +204,18 @@ public class AddSubscription extends Application {
         TableView<TrainingProgram> tableView = new TableView<>();
         tableView.setPrefWidth(650);
 
-//        TableColumn<TrainingProgram, Integer> serialNumberCol = new TableColumn<>("Serial Number");
-//        serialNumberCol.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        // TableColumn<TrainingProgram, Integer> serialNumberCol = new
+        // TableColumn<>("Serial Number");
+        // serialNumberCol.setCellValueFactory(new
+        // PropertyValueFactory<>("serialNumber"));
 
         TableColumn<TrainingProgram, String> sportCol = new TableColumn<>("Sport");
         sportCol.setCellValueFactory(new PropertyValueFactory<>("sport"));
         sportCol.setMinWidth(100);
 
-//        TableColumn<TrainingProgram, Integer> facilityCol = new TableColumn<>("Facility");
-//        facilityCol.setCellValueFactory(new PropertyValueFactory<>("facility"));
+        // TableColumn<TrainingProgram, Integer> facilityCol = new
+        // TableColumn<>("Facility");
+        // facilityCol.setCellValueFactory(new PropertyValueFactory<>("facility"));
 
         TableColumn<TrainingProgram, String> coachCol = new TableColumn<>("Coach");
         coachCol.setCellValueFactory(new PropertyValueFactory<>("coach"));
@@ -339,8 +225,10 @@ public class AddSubscription extends Application {
         minExpCol.setCellValueFactory(new PropertyValueFactory<>("minimumExp"));
         minExpCol.setMinWidth(100);
 
-//        TableColumn<TrainingProgram, Boolean> weekOfAthleteCol = new TableColumn<>("Week of the Athlete");
-//        weekOfAthleteCol.setCellValueFactory(new PropertyValueFactory<>("weekOfTheAthlete"));
+        // TableColumn<TrainingProgram, Boolean> weekOfAthleteCol = new
+        // TableColumn<>("Week of the Athlete");
+        // weekOfAthleteCol.setCellValueFactory(new
+        // PropertyValueFactory<>("weekOfTheAthlete"));
 
         TableColumn<TrainingProgram, String> sheetCol = new TableColumn<>("Sheet");
         sheetCol.setCellValueFactory(new PropertyValueFactory<>("sheet"));
@@ -354,7 +242,9 @@ public class AddSubscription extends Application {
         dayOfTheWeekCol.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
         dayOfTheWeekCol.setMinWidth(100);
 
-//        tableView.getColumns().addAll(serialNumberCol, sportCol, facilityCol, coachCol, minExpCol, weekOfAthleteCol, sheetCol, durationCol, dayOfTheWeekCol);
+        // tableView.getColumns().addAll(serialNumberCol, sportCol, facilityCol,
+        // coachCol, minExpCol, weekOfAthleteCol, sheetCol, durationCol,
+        // dayOfTheWeekCol);
         tableView.getColumns().addAll(sportCol, coachCol, minExpCol, sheetCol, durationCol, dayOfTheWeekCol);
 
         ObservableList<TrainingProgram> trainingPrograms = getTrainingPrograms();
@@ -378,12 +268,13 @@ public class AddSubscription extends Application {
         File file = new File(dataDir.toFile(), "trainingProgram.xlsx");
 
         try (FileInputStream fis = new FileInputStream(file);
-             XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+                XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-                if (row.getRowNum() == 0) continue; // Skip header row
+                if (row.getRowNum() == 0)
+                    continue; // Skip header row
 
                 int serialNumber = (int) row.getCell(0).getNumericCellValue();
                 String sport = row.getCell(1).getStringCellValue();
@@ -395,7 +286,8 @@ public class AddSubscription extends Application {
                 int duration = (int) row.getCell(7).getNumericCellValue();
                 String dayOfTheWeek = row.getCell(8).getStringCellValue();
 
-                programs.add(new TrainingProgram(serialNumber, sport, facility, coach, minimumExp, weekOfTheAthlete, sheetValue, duration, dayOfTheWeek));
+                programs.add(new TrainingProgram(serialNumber, sport, facility, coach, minimumExp, weekOfTheAthlete,
+                        sheetValue, duration, dayOfTheWeek));
             }
 
         } catch (IOException e) {

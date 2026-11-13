@@ -1,4 +1,4 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.unrefactored;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;

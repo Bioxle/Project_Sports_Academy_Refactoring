@@ -1,4 +1,4 @@
-package com.example.SprotsAcademy;
+package com.example.SprotsAcademy.unrefactored;
 
 import javafx.application.Application;
 
