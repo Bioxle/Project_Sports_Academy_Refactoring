@@ -86,3 +86,9 @@ src/test/java/com/example/SprotsAcademy/
 # Part 3 : service package
 - [+] Added AthleteService, ReservationService and SubscriptionService to implement business logic.
 - [] The business logic As scattered across many UI classes which violates SRP in each class.
+
+# Part 4 : testing 
+- [+] Added unrefactored package for old unrefactored classes.
+- [] pom.xml changed : deleted legacy Junit 3 dependency and to exclude "unrefactored" package.
+- [] Refactored AppTest into modern Junit 5 annotations.
+- [] added Tests for model and service packages using Junit and mockito (Tests run: 96, Failures: 0, Errors: 0, Skipped: 0).
