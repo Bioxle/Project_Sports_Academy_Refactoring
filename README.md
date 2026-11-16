@@ -83,6 +83,11 @@ src/test/java/com/example/SprotsAcademy/
 - [-] getCurrentSerial() method removed from user (SRP).
 - [] TrainingProgram fields are primitives instead of dedicated objects (keep em?).
 
+# Part 2 : repository package
+- [+] Added Repository Interface
+- [+] Added Repositories interfaces for entities to be stored
+- [+] Added Excel integration, the model is open for future repository changes (mysql, sqllite, etc...)
+
 # Part 3 : service package
 - [+] Added AthleteService, ReservationService and SubscriptionService to implement business logic.
 - [] The business logic As scattered across many UI classes which violates SRP in each class.
@@ -91,4 +96,4 @@ src/test/java/com/example/SprotsAcademy/
 - [+] Added unrefactored package for old unrefactored classes.
 - [] pom.xml changed : deleted legacy Junit 3 dependency and to exclude "unrefactored" package.
 - [] Refactored AppTest into modern Junit 5 annotations.
-- [] added Tests for model and service packages using Junit and mockito (Tests run: 96, Failures: 0, Errors: 0, Skipped: 0).
+- [] added Tests for model and service packages using Junit and mockito (Tests run: 155, Failures: 0, Errors: 0, Skipped: 0).
